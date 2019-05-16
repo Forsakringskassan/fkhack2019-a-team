@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Home from './components/Home';
 import Login from './components/Login';
+import EnhetsVy from './components/EnhetsVy';
 
 Vue.use(Router);
 
@@ -23,6 +24,11 @@ export default new Router({
             path: '/login',
             name: 'login',
             component: Login
+        },
+        {
+            path: '/enhet',
+            name: 'enhetsvy',
+            component: EnhetsVy
         }
     ]
 });
