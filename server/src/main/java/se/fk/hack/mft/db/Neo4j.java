@@ -5,6 +5,7 @@ import org.neo4j.driver.v1.types.Node;
 import se.fk.hack.mft.vo.Ledighet;
 import se.fk.hack.mft.vo.UserIdRequest;
 import se.fk.hack.mft.vo.User;
+import se.fk.hack.mft.vo.UserLedighetRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class Neo4j {
         return result.list().size() > 0;
     }
 
-    public static List<Ledighet> userLedighet(UserIdRequest request) {
+    public static List<Ledighet> userGetLedighet(UserIdRequest request) {
         Session session = driver.session();
 
         Map<String, Object> params = new HashMap<>();
@@ -98,5 +99,9 @@ public class Neo4j {
         });
 
         return ledigheter;
+    }
+
+    public static boolean userCreateLedighet(UserLedighetRequest request) {
+        return false;
     }
 }

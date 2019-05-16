@@ -33,9 +33,9 @@ CREATE (L:Ledighet {id:apoc.create.uuid(), godkänd:false})
 MERGE (P2)-[:REQUESTS]->(L)
 MERGE (L)-[:TYPE]->(LS)
 WITH L
-CALL ga.timetree.events.attach({node: L, time: 1463659567468, relationshipType: "FROM"})
+CALL ga.timetree.events.attach({node: L, time: apoc.date.parse('2015/03/25','ms','yyyy/MM/dd'), relationshipType: "FROM"})
 YIELD node as node1
-CALL ga.timetree.events.attach({node: L, time: 1563659567468, relationshipType: "TOM"})
+CALL ga.timetree.events.attach({node: L, time: apoc.date.parse('2015/04/25','ms','yyyy/MM/dd'), relationshipType: "TOM"})
 YIELD node RETURN node
 
 //Rensa allt
