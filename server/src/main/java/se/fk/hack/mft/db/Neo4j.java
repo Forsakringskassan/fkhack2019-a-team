@@ -106,6 +106,7 @@ public class Neo4j {
     }
 
     public static boolean userCreateLedighet(UserLedighetRequest request) {
+        //TODO
         return false;
     }
 
@@ -118,8 +119,6 @@ public class Neo4j {
         List<Record> records = result.list();
 
         List<User> users = new ArrayList<>(records.size());
-
-        System.out.println(records.size());
 
         records.stream().map(record -> record.get(0).asNode()).forEach(node -> users.add(new User(node.get("kortid").asString(), node.get("namn").asString())));
 
