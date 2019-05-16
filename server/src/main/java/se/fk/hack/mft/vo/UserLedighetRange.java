@@ -1,0 +1,76 @@
+package se.fk.hack.mft.vo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserLedighetRange {
+    String kortid;
+    String namn;
+    String from;
+    String tom;
+    List<Ledighet> ledigheter = new ArrayList<>();
+    List<String> dagar = new ArrayList<>();
+
+    public void handleDate(String date) {
+        if (ledigheter.isEmpty()) {
+            dagar.add(null);
+        } else {
+            for (Ledighet l : ledigheter) {
+                String s = l.matches(date);
+                dagar.add(s);
+            }
+        }
+    }
+
+    public String getKortid() {
+        return kortid;
+    }
+
+    public void setKortid(String kortid) {
+        this.kortid = kortid;
+    }
+
+    public String getNamn() {
+        return namn;
+    }
+
+    public void setNamn(String namn) {
+        this.namn = namn;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTom() {
+        return tom;
+    }
+
+    public void setTom(String tom) {
+        this.tom = tom;
+    }
+
+    public List<Ledighet> getLedigheter() {
+        return ledigheter;
+    }
+
+    public void setLedigheter(List<Ledighet> ledigheter) {
+        this.ledigheter = ledigheter;
+    }
+
+    public void addLedighet(Ledighet ledighet) {
+        this.ledigheter.add(ledighet);
+    }
+
+    public List<String> getDagar() {
+        return dagar;
+    }
+
+    public void setDagar(List<String> dagar) {
+        this.dagar = dagar;
+    }
+}
