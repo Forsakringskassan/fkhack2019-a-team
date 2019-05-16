@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-data-table :headers="headers" :items="Person" class="elevation-1">
+    <v-data-table :headers="headers" :items="Personer" class="elevation-1">
         <template v-slot:items="props">
             <td>{{ props.item.namn }}</td>
             <td v-for="dag in props.item.dagar" :key="dag">{{dag}}</td>
@@ -9,6 +9,7 @@
 
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -45,7 +46,8 @@
                     {text: '31', value: 'Day31'},
 
                 ],
-                Person: [
+                Personer: [],
+                /*Person: [
                     {
                         namn: 'Test Testorsson',
                         kortid: '88880001',
@@ -81,8 +83,19 @@
                             '31',
                             ]
                     }
-                ]
+                ]*/
             }
+        },
+        methods: {
+            getPersoner(){
+                let self = this;
+                axios.post("http://localhost:8080/mft/enhetsvy", {kortid: this.$store.getters.getUser}).then(function (response) {
+                    self.Personer = response.data
+                });
+            }
+        },
+        created() {
+            this.getPersoner()
         }
     }
 </script>
