@@ -4,7 +4,7 @@
 
         <div class="card  day-off-card">
             <div class="card card-header">
-                Mina ledigheter
+                Mina ledigheter - {{userObj}}
             </div>
             <div class="card card-body">
                 <table class="table-style">
@@ -36,14 +36,22 @@
 </template>
 
 <script>
+
+    import axios from 'axios';
     export default {
         name: "Home",
-        props: ['user'],
+        //props: ['user'],
         data() {
-            return {}
+            return {
+                userObj: ''
+            }
         },
         computed: {
+            user: function(){
+              return this.$store.getters.getUser;
+            },
             items: function () {
+            /*
                 let item = {
                     fromdat: '2019-03-02',
                     tomdat: '2020-11-12',
@@ -52,10 +60,17 @@
                 let ar = [];
                 ar.push(item);
                 return ar;
+             */
+              return this.userObj
             }
         },
         created() {
-            console.log(this.user);
+            axios.post('http://localhost:8080/mft/user', {kortid: this.user.kortid}).then(function (response) {
+                console.log(JSON.stringify(response, null,1));
+                this.userObj = response.data;
+            })
+
+
         }
     }
 </script>

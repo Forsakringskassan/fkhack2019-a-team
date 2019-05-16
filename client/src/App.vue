@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <TopNavbar :kortid="getLoggedInUser"></TopNavbar>
+        <TopNavbar :kortid="getLoggedInUser.kortid"></TopNavbar>
         <div class="page__wrapper page__wrapper--overflow">
             <router-view></router-view>
 
@@ -19,7 +19,7 @@
         },
         computed: {
             getLoggedInUser: function() {
-                return this.$store.getters.getUser.kortid;
+                return this.$store.getters.getUser;
             }
         },
         data() {
