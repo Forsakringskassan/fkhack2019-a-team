@@ -1,18 +1,38 @@
 package se.fk.hack.mft.rest;
 
 
-import javax.ws.rs.Path;
+import se.fk.hack.mft.db.Neo4j;
+import se.fk.hack.mft.vo.UserIdRequest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
 
 
-@Path("/mft")
+@Path("mft")
 public class MFTEndpoint {
 
-	@GET
-	@Produces("text/plain")
-	public Response doGet() {
-		return Response.ok("Hello from MFT!").build();
+	@POST
+	@Path("user")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUser(UserIdRequest request) {
+		return Response.ok().entity(Neo4j.getUser(request)).build();
+	}
+
+	@POST
+	@Path("collegues")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCollegues(UserIdRequest request) {
+		return Response.ok().entity(Neo4j.getCollegues(request)).build();
+	}
+
+	@POST
+	@Path("is-manager")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response isManager(UserIdRequest request) {
+		return Response.ok().entity(Neo4j.isManager(request)).build();
 	}
 }

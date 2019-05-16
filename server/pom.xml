@@ -56,5 +56,10 @@
       <groupId>io.thorntail</groupId>
       <artifactId>neo4j</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.neo4j.driver</groupId>
+      <artifactId>neo4j-java-driver</artifactId>
+      <version>1.7.2</version>
+    </dependency>
   </dependencies>
 </project>
