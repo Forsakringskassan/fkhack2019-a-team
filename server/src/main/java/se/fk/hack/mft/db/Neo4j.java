@@ -37,6 +37,19 @@ public class Neo4j {
                 user.get("namn").asString());
     }
 
+    public static List<User> getMedarbetare(UserIdRequest request) {
+        Session session = driver.session();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(ID, request.getKortid());
+
+        StatementResult result = session.run(String.format(
+                "MATCH (user:%1$s)<-[:HAS_CHEF]-(collegue:%1$s) WHERE user.%2$s = { %2$s } RETURN collegue", Labels.Person.name(), ID),
+                params);
+
+        return getUsersFromResult(result);
+    }
+
     public static List<User> getCollegues(UserIdRequest request) {
         Session session = driver.session();
 
@@ -47,16 +60,7 @@ public class Neo4j {
                 "MATCH (user:%1$s)-[:HAS_CHEF]->()<-[:HAS_CHEF]-(collegue:%1$s) WHERE user.%2$s = { %2$s } RETURN collegue", Labels.Person.name(), ID),
                 params);
 
-        // Row in result
-        List<Record> records = result.list();
-
-        List<User> collegues = new ArrayList<>(records.size());
-
-        System.out.println(records.size());
-
-        records.stream().map(record -> record.get("collegue").asNode()).forEach(node -> collegues.add(new User(node.get("kortid").asString(), node.get("namn").asString())));
-
-        return collegues;
+        return getUsersFromResult(result);
     }
 
     public static boolean isManager(UserIdRequest request) {
@@ -103,5 +107,22 @@ public class Neo4j {
 
     public static boolean userCreateLedighet(UserLedighetRequest request) {
         return false;
+    }
+
+    /**
+     * From Neo4j {@link StatementResult } extract a list of simple users.
+     * @param result
+     * @return
+     */
+    private static List<User> getUsersFromResult(StatementResult result) {
+        List<Record> records = result.list();
+
+        List<User> users = new ArrayList<>(records.size());
+
+        System.out.println(records.size());
+
+        records.stream().map(record -> record.get(0).asNode()).forEach(node -> users.add(new User(node.get("kortid").asString(), node.get("namn").asString())));
+
+        return users;
     }
 }

@@ -24,6 +24,14 @@ public class MFTEndpoint {
 	}
 
 	@POST
+	@Path("medarbetare")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMedarbetare(UserIdRequest request) {
+		return rf.get().entity(Neo4j.getMedarbetare(request)).build();
+	}
+
+	@POST
 	@Path("collegues")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
