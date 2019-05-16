@@ -17,25 +17,28 @@ MERGE
 MERGE
    (P2)-[:HAS_CHEF]->(CHEF)
 
-
-// Skapa ansökan
-MATCH (P:Person {kortid:'88880001'})
-MATCH (LT:Ledighetstyp {typ:'Flexledighet'})
-CREATE (L:Ledighet {id:apoc.create.uuid(), godkänd:false})
-MERGE (P)-[:REQUESTS]->(L)
-MERGE (L)-[:TYPE]->(LT)
-
-
-//Test skapa ledighet med from och tom
-CREATE (P2:Person {kortid:'88880002', namn:'Test2 Testorsson', antaldagar:'28', sparadedagar:'10'})
-CREATE (LS:Ledighetstyp {typ:'Semester'})
-CREATE (L:Ledighet {id:apoc.create.uuid(), godkänd:false})
-MERGE (P2)-[:REQUESTS]->(L)
-MERGE (L)-[:TYPE]->(LS)
-WITH L
-CALL ga.timetree.events.attach({node: L, time: apoc.date.parse('2015/03/25','ms','yyyy/MM/dd'), relationshipType: "FROM"})
+// SKapa ledighetsasökan för P1
+MATCH (P1:Person {kortid:'88880001'})
+MATCH (LS:Ledighetstyp {typ:'Semester'})
+CREATE (L1:Ledighet {id:apoc.create.uuid(), godkänd:false})
+MERGE (P1)-[:REQUESTS]->(L1)
+MERGE (L1)-[:TYPE]->(LS)
+WITH L1
+CALL ga.timetree.events.attach({node: L1, time: apoc.date.parse('2019/06/19','ms','yyyy/MM/dd'), relationshipType: "FROM"})
 YIELD node as node1
-CALL ga.timetree.events.attach({node: L, time: apoc.date.parse('2015/04/25','ms','yyyy/MM/dd'), relationshipType: "TOM"})
+CALL ga.timetree.events.attach({node: L1, time: apoc.date.parse('2019/07/12','ms','yyyy/MM/dd'), relationshipType: "TOM"})
+YIELD node RETURN node
+
+// SKapa ledighetsansökan för p2
+MATCH (P1:Person {kortid:'88880002'})
+MATCH (LS:Ledighetstyp {typ:'Semester'})
+CREATE (L1:Ledighet {id:apoc.create.uuid(), godkänd:false})
+MERGE (P1)-[:REQUESTS]->(L1)
+MERGE (L1)-[:TYPE]->(LS)
+WITH L1
+CALL ga.timetree.events.attach({node: L1, time: apoc.date.parse('2019/06/25','ms','yyyy/MM/dd'), relationshipType: "FROM"})
+YIELD node as node1
+CALL ga.timetree.events.attach({node: L1, time: apoc.date.parse('2019/07/30','ms','yyyy/MM/dd'), relationshipType: "TOM"})
 YIELD node RETURN node
 
 //Rensa allt
