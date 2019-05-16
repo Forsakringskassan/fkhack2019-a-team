@@ -1,8 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-data-table :headers="headers" :items="Person" class="elevation-1">
         <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.namn }}</td>
+            <td>{{ props.item.namn }}</td>
+            <td v-for="dag in props.item.dagar" :key="dag">{{dag}}</td>
         </template>
     </v-data-table>
 </template>
@@ -50,10 +50,35 @@
                         namn: 'Test Testorsson',
                         kortid: '88880001',
                         dagar: [
-                            null,
-                            null,
-                            "Flexledig",
-                            null
+                            '1',
+                            '2',
+                            '3',
+                            '4',
+                            '6',
+                            '7',
+                            '8',
+                            '9',
+                            '10',
+                            '11',
+                            '12',
+                            '13',
+                            '15',
+                            '16',
+                            '17',
+                            '18',
+                            '19',
+                            '20',
+                            '21',
+                            '22',
+                            '23',
+                            '24',
+                            '25',
+                            '26',
+                            '27',
+                            '28',
+                            '29',
+                            '30',
+                            '31',
                             ]
                     }
                 ]
