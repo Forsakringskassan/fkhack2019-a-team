@@ -35,4 +35,12 @@ public class MFTEndpoint {
 	public Response isManager(UserIdRequest request) {
 		return Response.ok().entity(Neo4j.isManager(request)).build();
 	}
+
+	@POST
+	@Path("user/ledighet")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response userLedighet(UserIdRequest request) {
+		return Response.ok().entity(Neo4j.userLedighet(request)).build();
+	}
 }
