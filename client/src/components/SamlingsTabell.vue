@@ -2,6 +2,7 @@
     <v-data-table :headers="headers" :items="Personer" class="elevation-1">
         <template v-slot:items="props">
             <td>{{ props.item.namn }}</td>
+            <td v-for="dag in props.item.dagar" :key="dag">{{dag}}</td>
         </template>
     </v-data-table>
 </template>
@@ -22,10 +23,10 @@
                 let self = this;
                 let date = new Date()
                 let month = date.getMonth() <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
-                let firstDay = date.getFullYear() + '-' + month + '-' + date.getDate();
+                let firstDay = date.getFullYear() + '-' + month + '-01';
 
                 axios.post("http://localhost:8080/mft/enhetsvy", {
-                    kortid: this.$store.getters.getUser,
+                    kortid: this.$store.getters.getUser.kortid,
                     date: firstDay
                 }).then(function (response) {
                     self.Personer = response.data
