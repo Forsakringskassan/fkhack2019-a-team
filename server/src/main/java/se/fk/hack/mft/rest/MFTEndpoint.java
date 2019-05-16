@@ -13,20 +13,12 @@ import javax.ws.rs.core.Response;
 @Path("mft")
 public class MFTEndpoint {
 
-	private final ResponseFactory rf = new ResponseFactory();
-
-	@OPTIONS
-	@Path("*")
-	public Response getOptions() {
-		return rf.get().build();
-	}
-
 	@POST
 	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser(UserIdRequest request) {
-		return rf.get().entity(Neo4j.getUser(request)).build();
+		return Response.ok().entity(Neo4j.getUser(request)).build();
 	}
 
 	@POST
@@ -34,7 +26,7 @@ public class MFTEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMedarbetare(UserIdRequest request) {
-		return rf.get().entity(Neo4j.getMedarbetare(request)).build();
+		return Response.ok().entity(Neo4j.getMedarbetare(request)).build();
 	}
 
 	@POST
@@ -42,7 +34,7 @@ public class MFTEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCollegues(UserIdRequest request) {
-		return rf.get().entity(Neo4j.getCollegues(request)).build();
+		return Response.ok().entity(Neo4j.getCollegues(request)).build();
 	}
 
 	@POST
@@ -50,7 +42,7 @@ public class MFTEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response isManager(UserIdRequest request) {
-		return rf.get().entity(Neo4j.isManager(request)).build();
+		return Response.ok().entity(Neo4j.isManager(request)).build();
 	}
 
 	@POST
@@ -58,7 +50,7 @@ public class MFTEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response userLedighet(UserIdRequest request) {
-		return rf.get().entity(Neo4j.userGetLedighet(request)).build();
+		return Response.ok().entity(Neo4j.userGetLedighet(request)).build();
 	}
 
 	@POST
@@ -66,13 +58,14 @@ public class MFTEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response userCreateLedighet(UserLedighetRequest request) {
-		return rf.get().entity(Neo4j.userCreateLedighet(request)).build();
+		return Response.ok().entity(Neo4j.userCreateLedighet(request)).build();
 	}
 
-	public class ResponseFactory {
-		public Response.ResponseBuilder get() {
-			return Response
-					.ok();
-		}
+	@POST
+	@Path("ledighetstyper")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response ledighetstyper() {
+		return Response.ok().entity(Neo4j.ledighetstyper()).build();
 	}
 }
