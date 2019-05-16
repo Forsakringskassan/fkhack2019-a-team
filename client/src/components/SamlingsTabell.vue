@@ -1,10 +1,11 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<div>
     <v-data-table :headers="headers" :items="Personer" class="elevation-1">
         <template v-slot:items="props">
             <td>{{ props.item.namn }}</td>
-            <td v-for="dag in props.item.dagar" :key="dag">{{dag}}</td>
         </template>
     </v-data-table>
+</div>
 </template>
 
 
@@ -13,6 +14,7 @@
     export default {
         data() {
             return {
+                antalDagar : '',
                 headers: [
                     {text: 'Namn', value: 'name'},
                     {text: '1', value: 'Day1'},
@@ -92,10 +94,16 @@
                 axios.post("http://localhost:8080/mft/enhetsvy", {kortid: this.$store.getters.getUser}).then(function (response) {
                     self.Personer = response.data
                 });
+            },
+
+            daysInCurrentMonth () {
+                var datum = new Date();
+                this.antalDagar = new Date(datum.getFullYear(),datum.getMonth()+1, 0).getDate();
             }
         },
         created() {
             this.getPersoner()
+            this.daysInCurrentMonth()
         }
     }
 </script>
