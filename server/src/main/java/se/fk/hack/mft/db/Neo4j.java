@@ -2,15 +2,11 @@ package se.fk.hack.mft.db;
 
 import org.neo4j.driver.v1.*;
 import org.neo4j.driver.v1.types.Node;
-import se.fk.hack.mft.vo.Ledighet;
-import se.fk.hack.mft.vo.UserIdRequest;
-import se.fk.hack.mft.vo.User;
-import se.fk.hack.mft.vo.UserLedighetRequest;
+import se.fk.hack.mft.vo.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Neo4j {
@@ -86,19 +82,22 @@ public class Neo4j {
 
         StatementResult result = session.run(String.format(
                 "MATCH (p:%1$s)-[:REQUESTS]->(l:Ledighet)\n" +
+                        "MATCH (l)-->(lt:Ledighetstyp)\n" +
                         "MATCH (l)-[:FROM]->(fday:Day)<-[:CHILD]-(fmonth:Month)<-[:CHILD]-(fyear:Year)\n" +
                         "MATCH (l)-[:TOM]->(tday:Day)<-[:CHILD]-(tmonth:Month)<-[:CHILD]-(tyear:Year)\n" +
                         "WHERE p.%2$s = { %2$s }\n" +
                         "RETURN\n" +
                         "    toString(fyear.value)+'-'+toString(fmonth.value)+'-'+toString(fday.value) AS from,\n" +
                         "    toString(tyear.value)+'-'+toString(tmonth.value)+'-'+toString(tday.value) AS tom,\n" +
-                        "    l.godkänd AS godkänd", Labels.Person.name(), ID),
+                        "    l.id AS id,\n" +
+                        "    l.godkänd AS godkänd\n" +
+                        "    lt.typ AS ledighetstyp", Labels.Person.name(), ID),
                 params);
 
         List<Ledighet> ledigheter = new ArrayList<>();
 
         result.list().stream().forEach(record -> {
-            ledigheter.add(new Ledighet(record.get("from").asString(), record.get("tom").asString(), record.get("godkänd").asBoolean()));
+            ledigheter.add(new Ledighet(record.get("id").asString(), record.get("from").asString(), record.get("tom").asString(), record.get("ledighetstyp").asString(), record.get("godkänd").asBoolean()));
         });
 
         return ledigheter;
@@ -116,7 +115,7 @@ public class Neo4j {
         StatementResult result = session.run(String.format(
                 "MATCH (user:%1$s) WHERE user.%2$s = { %2$s } \n" +
                         "MATCH (ledighetstyp:Ledighetstyp {typ: { ledighetstyp }}) \n" +
-                        "CREATE (ledighet:Ledighet {id: apoc.create.uuid(), godkänd: false}) \n" +
+                        "CREATE (ledighet:Ledighet {id: apoc.create.uuid(), godkänd: false, from: { from }, tom: { tom }}) \n" +
                         "MERGE (user)-[:REQUESTS]->(ledighet) \n" +
                         "MERGE (ledighet)-[:TYPE]->(ledighetstyp) \n" +
                         "WITH user, ledighet \n" +
@@ -153,5 +152,74 @@ public class Neo4j {
         records.stream().map(record -> record.get(0).asNode()).forEach(node -> users.add(new User(node.get("kortid").asString(), node.get("namn").asString())));
 
         return users;
+    }
+
+    public static List<UserLedighetRange> userLedighetRange(List<String> kortidn, String from, String tom) throws ParseException {
+        Session session = driver.session();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("kortidn", kortidn);
+        params.put("from", from);
+        params.put("tom", tom);
+
+        StatementResult result = session.run(String.format(
+                "WITH { kortidn } AS kortidn\n" +
+                        "UNWIND kortidn AS kortid\n" +
+                        "MATCH (p:Person)--(l:Ledighet)--(lt:Ledighetstyp)\n" +
+                        "WHERE p.kortid = kortid \n" +
+                        "AND NOT ({ from } < l.from AND { tom } < l.from)\n" +
+                        "AND NOT ({ from } > l.tom AND { tom } > l.tom)\n" +
+                        "RETURN p.kortid AS kortid, p.namn AS namn, l AS ledighet, lt.typ AS ledighetstyp"),
+                params);
+
+
+        Map<String, UserLedighetRange> ledighetMap = new HashMap<>();
+        kortidn.stream().forEach(kortid -> {
+            UserLedighetRange ulr = new UserLedighetRange();
+            ulr.setKortid(kortid);
+            ledighetMap.put(kortid, ulr);
+
+        });
+
+        result.list().stream().forEach(record -> {
+            String kortid = record.get("kortid").asString();
+            String namn = record.get("namn").asString();
+            Node ledighet = record.get("ledighet").asNode();
+            String ledighetstyp = record.get("ledighetstyp").asString();
+
+            UserLedighetRange apa = ledighetMap.get(kortid);
+            apa.setKortid(kortid);
+            apa.setNamn(namn);
+            apa.addLedighet(new Ledighet(ledighet.get("id").asString(), ledighet.get("from").asString(), ledighet.get("tom").asString(), ledighetstyp, ledighet.get("godkänd").asBoolean()));
+        });
+
+        for (UserLedighetRange l : ledighetMap.values()) {
+            // Fill in missing use info if no ledighet.
+            if (l.getNamn() == null) {
+                User u = Neo4j.getUser(new UserIdRequest(l.getKortid()));
+                l.setNamn(u.getNamn());
+            }
+
+            // Use calendar object to traverse calendar range.
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            Calendar iterator = Calendar.getInstance();
+            iterator.setTime(format.parse(from));
+
+            Calendar end = Calendar.getInstance();
+            end.setTime(format.parse(tom));
+
+            // Iterate all dates in range for user to determine daily ledighetstyp.
+            while (!iterator.after(end)) {
+                String dateString = format.format(iterator.getTime());
+                l.handleDate(format.format(iterator.getTime()));
+                iterator.add(Calendar.DATE, 1);
+            }
+        }
+
+        // Take values from map and return them in list.
+        List<UserLedighetRange> userLedigheter = new ArrayList<>();
+        ledighetMap.values().stream().forEach(userLedighetRange -> userLedigheter.add(userLedighetRange));
+        return userLedigheter;
     }
 }
