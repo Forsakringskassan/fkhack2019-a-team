@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import SamlingsTabell from "./SamlingsTabell"
+    import SamlingsTabell from "./SamlingsTabell";
 
     export default {
         name: 'EnhetsVy',

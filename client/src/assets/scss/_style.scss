@@ -2,29 +2,52 @@ body {
   /*margin-top: 150px;*/
 }
 
+.custom-nav {
+  float:left;
+}
+
 
 .top-nav {
   background-color: $color-theme-fk1;
   height: $top-navigation-height;
-  align-items: center;
 
-  &__branding {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
   &__logo {
     display: flex;
+    /*align-items: center;*/
+
     height: 100%;
     width: 13em;
     background-repeat: no-repeat;
     background-position: center;
     background-image: url('assets/img/fk-logo-white.svg');
   }
+
   &__user {
     color: white;
+    display:table-cell;
+    vertical-align: middle;
+
+  }
+  &__links {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+
+  }
+  &__link {
+    height: 100%;
+    background: none;
+    border: none;
+    margin-left: 2em;
+    text-decoration: none;
   }
 }
+.tttt {vertical-align: middle;
+}
+   button a{
+    text-decoration: none;
+     color: $color-navlink;
+  }
 
 .dash-card {
   width: 75%;
@@ -37,10 +60,12 @@ body {
   width: 50em;
   margin: auto;
 }
+
 .login-card {
   margin: auto;
   width: 25em;
 }
+
 .day-off-card {
   margin: auto;
   width: 25em;

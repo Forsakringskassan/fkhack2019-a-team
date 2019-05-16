@@ -2,7 +2,10 @@
     <div class="page">
         <TopNavbar :kortid="getLoggedInUser.kortid"></TopNavbar>
         <div class="page__wrapper page__wrapper--overflow">
-            <router-view></router-view>
+            <v-app>
+
+                <router-view></router-view>
+            </v-app>
 
         </div>
 
@@ -18,7 +21,7 @@
             TopNavbar,
         },
         computed: {
-            getLoggedInUser: function() {
+            getLoggedInUser: function () {
                 return this.$store.getters.getUser;
             }
         },

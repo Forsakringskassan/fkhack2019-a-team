@@ -19,6 +19,9 @@ export default new Vuex.Store(
                 state.user = user;
                  router.push({name: 'minfritid', params: {user: state.user}});
 
+            },
+            logoutUser: function(state) {
+                state.user = '';
             }
         },
         actions: {
@@ -29,6 +32,9 @@ export default new Vuex.Store(
                 };
 
                 commit('setLoggedInUser', userObj);
+            },
+            logoutAction:function({commit}) {
+                commit('logoutUser');
             }
         },
         plugins: [

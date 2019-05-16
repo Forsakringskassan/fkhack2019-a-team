@@ -2,21 +2,21 @@
     <div class="dash-card">
 
         <div class="card">
-            <div class="card card-body">
-                <h1>Ledighet</h1>
+            <div class="card-body">
+                <h1>Fritid</h1>
                 <div class="card-deck">
 
                     <div class="card">
                         <div class="card-header">From</div>
                         <div class="card-body">
-                            <datepicker v-model="date.from"></datepicker>
+                            <datepicker class="date-picker" v-model="date.from"></datepicker>
                         </div>
 
                     </div>
                     <div class="card">
                         <div class="card-header">Tom</div>
                         <div class="card-body">
-                            <datepicker v-model="date.tom"></datepicker>
+                            <datepicker class="date-picker" v-model="date.tom"></datepicker>
                         </div>
 
                     </div>
@@ -48,7 +48,7 @@
 
     export default {
         name: "AnsokanCard",
-        components: {datepicker},
+        components: { datepicker},
         data() {
             return {
                 date: {
