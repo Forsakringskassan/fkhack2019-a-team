@@ -1,0 +1,36 @@
+body {
+  /*margin-top: 150px;*/
+}
+
+
+.top-nav {
+  background-color: $color-theme-fk1;
+  height: $top-navigation-height;
+  align-items: center;
+
+  &__branding {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  &__logo {
+    display: flex;
+    height: 100%;
+    width: 13em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('assets/img/fk-logo-white.svg');
+  }
+  &__user {
+    color: white;
+  }
+}
+
+.login-card {
+  margin: auto;
+  width: 25em;
+}
+.day-off-card {
+  margin: auto;
+  width: 25em;
+}

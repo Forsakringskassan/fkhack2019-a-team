@@ -1,28 +1,35 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div class="page">
+        <TopNavbar :kortid="getLoggedInUser"></TopNavbar>
+        <div class="page__wrapper page__wrapper--overflow">
+            <router-view></router-view>
+
+        </div>
+
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+    import TopNavbar from "./components/TopNavbar";
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'App',
+        components: {
+            TopNavbar,
+        },
+        computed: {
+            getLoggedInUser: function() {
+                return this.$store.getters.getUser.kortid;
+            }
+        },
+        data() {
+            return {
+                kortid: ''
+            }
+        }
+    }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+    @import 'assets/scss/main';
 </style>
