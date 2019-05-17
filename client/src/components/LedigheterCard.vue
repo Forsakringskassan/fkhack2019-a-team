@@ -1,38 +1,41 @@
 <template>
-    <div class="card  dash-card">
-        <div class="card card-header">
-            Mina ledigheter &nbsp;&nbsp;&nbsp;&nbsp; <span class="username">{{userObj.info.namn}}</span>
-        </div>
-        <div class="card card-body">
-            <table class="table-style">
-                <thead>
-                <tr>
+    <div class="dash-card">
+        <div class="card">
 
-                    <th scope="col">Typ</th>
-                    <th scope="col">Fr.o.m.</th>
-                    <th scope="col">T.o.m.</th>
-                    <th scope="col">Godkänd</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div class="card-header">
+                Mina ledigheter &nbsp;&nbsp;&nbsp;&nbsp; <span class="username">{{userObj.info.namn}}</span>
+            </div>
+            <div class="card-body">
+                <table class="table-style">
+                    <thead>
+                    <tr>
 
-                <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.id">
+                        <th scope="col">Typ</th>
+                        <th scope="col">Fr.o.m.</th>
+                        <th scope="col">T.o.m.</th>
+                        <th scope="col">Godkänd</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.id">
 
 
-                    <td scope="row">{{item.typ}}</td>
-                    <td>{{item.from}}</td>
-                    <td> {{item.tom}}</td>
-                    <td>
-                        <div v-if="item.godkand === true">
-                            Ja
-                        </div>
-                        <div v-else>
-                            Nej
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        <td scope="row">{{item.typ}}</td>
+                        <td>{{item.from}}</td>
+                        <td> {{item.tom}}</td>
+                        <td>
+                            <div v-if="item.godkand === true">
+                                Ja
+                            </div>
+                            <div v-else>
+                                Nej
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>

@@ -1,9 +1,12 @@
 <template>
     <div class="dash-card">
-
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <h2>Skapa ledighetsf&ouml;rfr&aring;gan</h2>
+
+            </div>
+            <div class="card-body">
+
                 <div class="card-deck">
 
                     <div class="card">
