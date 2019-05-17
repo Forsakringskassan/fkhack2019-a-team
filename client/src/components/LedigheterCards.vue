@@ -8,9 +8,9 @@
                 <thead>
                 <tr>
 
-                    <th scope="col">typ</th>
-                    <th scope="col">from</th>
-                    <th scope="col">tom</th>
+                    <th scope="col">Typ</th>
+                    <th scope="col">Fr.o.m.</th>
+                    <th scope="col">T.o.m.</th>
                     <th scope="col">Godkänd</th>
                 </tr>
                 </thead>
@@ -22,7 +22,14 @@
                     <td scope="row">{{item.typ}}</td>
                     <td>{{item.from}}</td>
                     <td> {{item.tom}}</td>
-                    <td> {{item.godkand}}</td>
+                    <td>
+                        <div v-if="item.godkand === true">
+                            Ja
+                        </div>
+                        <div v-else>
+                            Nej
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

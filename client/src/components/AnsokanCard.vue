@@ -7,14 +7,14 @@
                 <div class="card-deck">
 
                     <div class="card">
-                        <div class="card-header">From</div>
+                        <div class="card-header">Fr.o.m.</div>
                         <div class="card-body">
                             <datepicker class="date-picker" v-model="date.from"></datepicker>
                         </div>
 
                     </div>
                     <div class="card">
-                        <div class="card-header">Tom</div>
+                        <div class="card-header">T.o.m.</div>
                         <div class="card-body">
                             <datepicker class="date-picker" v-model="date.tom"></datepicker>
                         </div>
