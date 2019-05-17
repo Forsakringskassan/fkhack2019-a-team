@@ -1,8 +1,8 @@
 package se.fk.hack.mft.vo;
 
 public class MonthRequest {
-    String kortid;
-    String date;
+    private String kortid;
+    private String date;
 
     public String getKortid() {
         return kortid;

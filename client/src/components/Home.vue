@@ -37,14 +37,20 @@
         },
         created() {
             let self = this;
+            console.log(this.user.kortid);
             axios.post('http://localhost:8080/mft/user', {kortid: this.user.kortid}).then(function (response) {
-              //  console.log(JSON.stringify(response, null, 1));
+                console.log(JSON.stringify(response, null, 1));
+
                 self.userObj.info = response.data;
-            });
+            }).catch(function(error) {
+                console.log(JSON.stringify(error, null, 1));
+            } );
 
             axios.post('http://localhost:8080/mft/user/ledighet', {kortid: this.user.kortid}).then(function (response) {
                 console.log(JSON.stringify(response, null, 1));
                 self.userObj.ledighet = response.data;
+            }).catch(function(error) {
+                console.log(JSON.stringify(error, null, 1));
             });
 
         }

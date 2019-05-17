@@ -86,13 +86,18 @@
                 console.log(JSON.stringify(body, null, 1));
                 axios.post(url, body).then(function (response) {
                     console.log(response);
+                }).catch(function(error) {
+                    console.log("error");
+                    console.log(error);
                 })
             },
             getLedighetstyper: function () {
 
                 let self = this;
 
+                self.ledighetstyper = [];
                 axios.post('http://localhost:8080/mft/ledighetstyper', {headers: {'charset': 'utf8'}}).then(function (response) {
+                    console.log(response.data)
                     self.ledighetstyper = response.data;
                 })
             },

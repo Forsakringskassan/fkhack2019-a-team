@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Neo4j {
-    private static Driver driver = GraphDatabase.driver("bolt://localhost:7687");
+    private static final Driver driver = GraphDatabase.driver("bolt://localhost:7687");
     private static final String ID = "kortid";
 
     public static User getUser(UserIdRequest request) {
@@ -96,9 +96,12 @@ public class Neo4j {
 
         List<Ledighet> ledigheter = new ArrayList<>();
 
-        result.list().stream().forEach(record -> {
-            ledigheter.add(new Ledighet(record.get("id").asString(), record.get("from").asString(), record.get("tom").asString(), record.get("ledighetstyp").asString(), record.get("godkänd").asBoolean()));
-        });
+        result.list().stream().forEach(record -> ledigheter.add(new Ledighet(
+                record.get("id").asString(),
+                record.get("from").asString(),
+                record.get("tom").asString(),
+                record.get("ledighetstyp").asString(),
+                record.get("godkänd").asBoolean())));
 
         System.out.println(ledigheter);
         return ledigheter;
@@ -220,7 +223,7 @@ public class Neo4j {
 
         // Take values from map and return them in list.
         List<UserLedighetRange> userLedigheter = new ArrayList<>();
-        ledighetMap.values().stream().forEach(userLedighetRange -> userLedigheter.add(userLedighetRange));
+        ledighetMap.values().stream().forEach(userLedigheter::add);
         return userLedigheter;
     }
 }

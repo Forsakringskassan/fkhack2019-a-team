@@ -3,7 +3,7 @@ body {
 }
 
 .custom-nav {
-  float:left;
+  float: left;
 }
 
 
@@ -24,16 +24,18 @@ body {
 
   &__user {
     color: white;
-    display:table-cell;
+    display: table-cell;
     vertical-align: middle;
 
   }
+
   &__links {
     display: flex;
     height: 100%;
     justify-content: space-between;
 
   }
+
   &__link {
     height: 100%;
     background: none;
@@ -42,12 +44,11 @@ body {
     text-decoration: none;
   }
 }
-.tttt {vertical-align: middle;
+
+button a {
+  text-decoration: none;
+  color: $color-navlink;
 }
-   button a{
-    text-decoration: none;
-     color: $color-navlink;
-  }
 
 .dash-card {
   width: 75%;
