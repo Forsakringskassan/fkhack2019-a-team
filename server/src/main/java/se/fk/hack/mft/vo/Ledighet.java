@@ -1,9 +1,5 @@
 package se.fk.hack.mft.vo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Ledighet {
     private String id;
     private String from;
@@ -65,5 +61,13 @@ public class Ledighet {
 
     public void setGodkand(boolean godkand) {
         this.godkand = godkand;
+    }
+
+    public String getTyp() {
+        return typ;
+    }
+
+    public void setTyp(String typ) {
+        this.typ = typ;
     }
 }

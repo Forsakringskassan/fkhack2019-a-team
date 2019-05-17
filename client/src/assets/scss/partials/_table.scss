@@ -29,7 +29,7 @@
 }
 
 .table-style tbody td {
-  font-size: 8pt;
+  font-size: 11pt;
   height: 5px;
   padding: 0.35rem;
 }
@@ -46,4 +46,8 @@
 .table-style-transparent th {
   padding: 0.5rem;
   font-size: 15pt;
+}
+
+  th.column {
+  padding: 0;
 }

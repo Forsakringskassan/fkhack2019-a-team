@@ -48,7 +48,7 @@
 
     export default {
         name: "AnsokanCard",
-        components: { datepicker},
+        components: {datepicker},
         data() {
             return {
                 date: {
@@ -70,7 +70,7 @@
             }
         },
         created() {
-          this.getLedighetstyper();
+            this.getLedighetstyper();
         },
         methods: {
             ansok: function () {
@@ -85,14 +85,13 @@
 
                 console.log(JSON.stringify(body, null, 1));
                 axios.post(url, body).then(function (response) {
-
                     console.log(response);
                 }).catch(function(error) {
                     console.log("error");
                     console.log(error);
                 })
             },
-            getLedighetstyper: function() {
+            getLedighetstyper: function () {
 
                 let self = this;
 
@@ -105,10 +104,10 @@
             formatDate: function (date) {
 
 
-                let monthNN = date.getMonth() <= 9 ? "0"+(date.getMonth()+1) : (date.getMonth() +1);
-                let dateNN = date.getDate() <= 9 ? "0"+date.getDate() : date.getDate();
+                let monthNN = date.getMonth() <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+                let dateNN = date.getDate() <= 9 ? "0" + date.getDate() : date.getDate();
 
-                return date.getFullYear() + '-'+ monthNN + '-' + dateNN;
+                return date.getFullYear() + '-' + monthNN + '-' + dateNN;
 
             }
         }

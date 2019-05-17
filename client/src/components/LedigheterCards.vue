@@ -8,6 +8,7 @@
                 <thead>
                 <tr>
 
+                    <th scope="col">typ</th>
                     <th scope="col">from</th>
                     <th scope="col">tom</th>
                     <th scope="col">Godkänd</th>
@@ -18,7 +19,8 @@
                 <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.from">
 
 
-                    <td scope="row"> {{item.from}}</td>
+                    <td scope="row">{{item.typ}}</td>
+                    <td>{{item.from}}</td>
                     <td> {{item.tom}}</td>
                     <td> {{item.godkand}}</td>
                 </tr>

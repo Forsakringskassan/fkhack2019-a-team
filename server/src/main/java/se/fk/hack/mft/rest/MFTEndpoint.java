@@ -3,6 +3,7 @@ package se.fk.hack.mft.rest;
 
 import se.fk.hack.mft.db.Neo4j;
 import se.fk.hack.mft.vo.MonthRequest;
+import se.fk.hack.mft.vo.User;
 import se.fk.hack.mft.vo.UserIdRequest;
 import se.fk.hack.mft.vo.UserLedighetRequest;
 
@@ -12,7 +13,6 @@ import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("user/ledighet")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response userLedighet(UserIdRequest request) {
 		return Response.ok().entity(Neo4j.userGetLedighet(request)).build();
 	}
@@ -79,7 +79,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("enhetsvy")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response enhetsvy(MonthRequest request) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -92,7 +92,7 @@ public class MFTEndpoint {
 		// Get people in your unit.
 		List<String> kortidn = new ArrayList<>();
 		kortidn.add(request.getKortid());
-		Neo4j.getCollegues(new UserIdRequest(request.getKortid())).stream().map(user -> user.getKortid()).forEach(kortid -> kortidn.add(kortid));
+		Neo4j.getCollegues(new UserIdRequest(request.getKortid())).stream().map(User::getKortid).forEach(kortidn::add);
 
 		return Response.ok().entity(Neo4j.userLedighetRange(kortidn, request.getDate(), format.format(monthEnd.getTime()))).build();
 	}
