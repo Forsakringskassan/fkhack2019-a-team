@@ -1,10 +1,15 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-data-table  hide-actions :headers="headers" :items="Personer" class="elevation-1 lillen">
-        <template v-slot:items="props">
-            <td>{{ props.item.namn }}</td>
-            <td v-for="(dag, index) in props.item.dagar" :key="index" :class="{ledig: dag != null}">{{dag}}</td>
-        </template>
-    </v-data-table>
+    <div class="h-100">
+
+
+        <h2 class="month-head">{{month}}</h2>
+        <v-data-table hide-actions :headers="headers" :items="Personer" class="elevation-1 lillen">
+            <template v-slot:items="props">
+                <td>{{ props.item.namn }}</td>
+                <td v-for="(dag, index) in props.item.dagar" :key="index" :class="{ledig: dag != null}">{{dag}}</td>
+            </template>
+        </v-data-table>
+    </div>
 </template>
 
 
@@ -14,8 +19,24 @@
     export default {
         data() {
             return {
+                currMonth: '',
                 headers: [],
                 Personer: [],
+                months: [
+                    'Januari',
+                    'Februari',
+                    'Mars',
+                    'April',
+                    'Maj',
+                    'Juni',
+                    'Juli',
+                    'Augusti',
+                    'September',
+                    'Oktober',
+                    'November',
+                    'December'
+
+                ]
             }
         },
         methods: {
@@ -30,12 +51,10 @@
                     date: firstDay
                 }).then(function (response) {
                     let tmp = response.data
-                    for(var i = 0; i < tmp.length; i++)
-                    {
-                        for(var j = 0; j < tmp[i].dagar.length; j++)
-                        {
+                    for (var i = 0; i < tmp.length; i++) {
+                        for (var j = 0; j < tmp[i].dagar.length; j++) {
 
-                            if(tmp[i].dagar[j] != null) {
+                            if (tmp[i].dagar[j] != null) {
                                 tmp[i].dagar[j] = tmp[i].dagar[j].substring(0, 3)
                             }
                         }
@@ -65,23 +84,36 @@
                 }
             }
         },
+        computed: {
+          month: function() {
+              return this.months[this.currMonth];
+          }
+        },
         created() {
             this.getPersoner()
-            this.daysInCurrentMonth(new Date().getMonth())
+            this.currMonth = new Date().getMonth();
+            this.daysInCurrentMonth(this.currMonth);
         }
     }
 </script>
 <style lang="scss">
-    .ledig{
+    .ledig {
         background-color: lightgray;
     }
+
     .lillen {
-        margin-top: 2em;
+        margin-top: 1em;
     }
-    .lillen td,.lillen th{
+
+    .lillen td, .lillen th {
         text-align: center !important;
         padding: 0 4px !important;
-        width:2em;
+        width: 2em;
         border-right: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    h2.month-head {
+        margin-left: 10px;
+        margin-top: 10px;
+        margin-bottom: 1px;
     }
 </style>
