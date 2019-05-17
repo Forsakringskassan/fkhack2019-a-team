@@ -16,10 +16,15 @@
             <div class="top-nav__links mft-white-text">
 
                 <div class="top-nav__user">
-                    <button disabled class="top-nav__link">  {{kortid || 'Guest'}}</button>
+                    <button disabled class="top-nav__link">
+                        <div v-if="kortid">Inloggad som: &nbsp;&nbsp;&nbsp;&nbsp; {{kortid }}</div>
+                        <div v-else>Ej Inloggad</div>
+                    </button>
                 </div>
                 <div class="top-nav__user">
-                    <button class="top-nav__link" @click="logout">Logga Ut</button>
+                    <button class="top-nav__link" @click="logout">
+                        <div v-if="kortid">Logga Ut</div>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -35,10 +40,10 @@
         methods: {
             logout: function () {
                 let self = this;
-                this.$store.dispatch('logoutAction').then(function() {
-                //self.$router.push({name: 'login'});
+                this.$store.dispatch('logoutAction').then(function () {
+                    //self.$router.push({name: 'login'});
                     window.location.href = '/login';
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console.log(error);
                     window.location.href = '/login';
                 });
