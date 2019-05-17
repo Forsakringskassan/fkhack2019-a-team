@@ -2,7 +2,7 @@
     <v-data-table :headers="headers" :items="Personer" class="elevation-1">
         <template v-slot:items="props">
             <td>{{ props.item.namn }}</td>
-            <td v-for="dag in props.item.dagar" :key="dag">{{dag}}</td>
+            <td v-for="(dag, index) in props.item.dagar" :key="index">{{dag}}</td>
         </template>
     </v-data-table>
 </template>
