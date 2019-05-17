@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserLedighetRange {
-    String kortid;
-    String namn;
-    String from;
-    String tom;
-    List<Ledighet> ledigheter = new ArrayList<>();
-    List<String> dagar = new ArrayList<>();
+    private String kortid;
+    private String namn;
+    private String from;
+    private String tom;
+    private List<Ledighet> ledigheter = new ArrayList<>();
+    private List<String> dagar = new ArrayList<>();
 
     public void handleDate(String date) {
         if (ledigheter.isEmpty()) {

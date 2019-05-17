@@ -1,10 +1,10 @@
 package se.fk.hack.mft.vo;
 
 public class UserLedighetRequest {
-    public String kortid;
-    public String from;
-    public String tom;
-    public String ledighetstyp;
+    private String kortid;
+    private String from;
+    private String tom;
+    private String ledighetstyp;
 
     public String getKortid() {
         return kortid;
