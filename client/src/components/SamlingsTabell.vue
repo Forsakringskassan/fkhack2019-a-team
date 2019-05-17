@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-data-table :headers="headers" :items="Personer" class="elevation-1">
+    <v-data-table hide-actions :headers="headers" :items="Personer" class="elevation-1">
         <template v-slot:items="props">
             <td>{{ props.item.namn }}</td>
             <td v-for="(dag, index) in props.item.dagar" :key="index">{{dag}}</td>
@@ -29,7 +29,19 @@
                     kortid: this.$store.getters.getUser.kortid,
                     date: firstDay
                 }).then(function (response) {
-                    self.Personer = response.data
+                    let tmp = response.data
+                    for(var i = 0; i < tmp.length; i++)
+                    {
+                        for(var j = 0; j < tmp[i].dagar.length; j++)
+                        {
+
+                            if(tmp[i].dagar[j] != null) {
+                                tmp[i].dagar[j] = tmp[i].dagar[j].substring(0, 3)
+                            }
+                        }
+                    }
+                    console.log(tmp)
+                    self.Personer = tmp
                 });
             },
 
