@@ -3,6 +3,8 @@ package se.fk.hack.mft.vo;
 public class UserIdRequest {
     private String kortid;
 
+    public UserIdRequest() {}
+
     public UserIdRequest(String kortid) {
         this.kortid = kortid;
     }

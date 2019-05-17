@@ -82,7 +82,7 @@ public class Neo4j {
 
         StatementResult result = session.run(String.format(
                 "MATCH (p:%1$s)-[:REQUESTS]->(l:Ledighet)\n" +
-                        "MATCH (l)-->(lt:Ledighetstyp)\n" +
+                        "MATCH (l)-[:TYPE]->(lt:Ledighetstyp)\n" +
                         "MATCH (l)-[:FROM]->(fday:Day)<-[:CHILD]-(fmonth:Month)<-[:CHILD]-(fyear:Year)\n" +
                         "MATCH (l)-[:TOM]->(tday:Day)<-[:CHILD]-(tmonth:Month)<-[:CHILD]-(tyear:Year)\n" +
                         "WHERE p.%2$s = { %2$s }\n" +
@@ -90,7 +90,7 @@ public class Neo4j {
                         "    toString(fyear.value)+'-'+toString(fmonth.value)+'-'+toString(fday.value) AS from,\n" +
                         "    toString(tyear.value)+'-'+toString(tmonth.value)+'-'+toString(tday.value) AS tom,\n" +
                         "    l.id AS id,\n" +
-                        "    l.godkänd AS godkänd\n" +
+                        "    l.godkänd AS godkänd,\n" +
                         "    lt.typ AS ledighetstyp", Labels.Person.name(), ID),
                 params);
 
