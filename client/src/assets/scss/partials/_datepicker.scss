@@ -4,3 +4,7 @@
   border-top: none;
   border-bottom: 1px dashed grey;
 }
+
+.date-picker:hover div input:hover {
+  cursor:pointer;
+}
