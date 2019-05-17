@@ -2,10 +2,7 @@ package se.fk.hack.mft.rest;
 
 
 import se.fk.hack.mft.db.Neo4j;
-import se.fk.hack.mft.vo.MonthRequest;
-import se.fk.hack.mft.vo.User;
-import se.fk.hack.mft.vo.UserIdRequest;
-import se.fk.hack.mft.vo.UserLedighetRequest;
+import se.fk.hack.mft.vo.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -67,6 +64,16 @@ public class MFTEndpoint {
 	public Response userCreateLedighet(UserLedighetRequest request) {
 		return Response.ok().entity(Neo4j.userCreateLedighet(request)).build();
 	}
+
+	@POST
+	@Path("user/ledighet/set-status")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response setStatusLedighet(LedighetStatusRequest request) {
+		return Response.ok().entity(Neo4j.setStatusLedighet(request)).build();
+	}
+
+
 
 	@POST
 	@Path("ledighetstyper")
