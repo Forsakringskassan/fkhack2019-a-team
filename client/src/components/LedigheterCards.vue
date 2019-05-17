@@ -1,7 +1,7 @@
 <template>
     <div class="card  dash-card">
         <div class="card card-header">
-            Mina ledigheter - {{userObj.info.namn}}
+            Mina ledigheter &nbsp;&nbsp;&nbsp;&nbsp; <span class="username">{{userObj.info.namn}}</span>
         </div>
         <div class="card card-body">
             <table class="table-style">
@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
 
-                <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.from">
+                <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.id">
 
 
                     <td scope="row">{{item.typ}}</td>
@@ -43,5 +43,9 @@
 </script>
 
 <style scoped>
+
+    .username {
+        font-weight: bold;
+    }
 
 </style>

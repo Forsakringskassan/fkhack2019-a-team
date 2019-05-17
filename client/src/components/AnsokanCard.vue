@@ -56,7 +56,7 @@
                     tom: moment(moment()).add(1, 'days').toDate()
                 },
                 selected: 'Semester',
-                ledighetstyper: []
+                ledighetstyper: [],
 
 
             }
@@ -82,11 +82,12 @@
                     tom: this.formatDate(this.date.tom),
                     ledighetstyp: this.selected
                 };
-
+                let self = this;
                 console.log(JSON.stringify(body, null, 1));
                 axios.post(url, body).then(function (response) {
                     console.log(response);
-                }).catch(function(error) {
+                    self.$router.go(0);
+                }).catch(function (error) {
                     console.log("error");
                     console.log(error);
                 })

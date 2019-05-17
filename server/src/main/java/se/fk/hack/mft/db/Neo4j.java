@@ -103,7 +103,6 @@ public class Neo4j {
                 record.get("ledighetstyp").asString(),
                 record.get("godkänd").asBoolean())));
 
-        System.out.println(ledigheter);
         return ledigheter;
     }
 
