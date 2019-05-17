@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-data-table hide-actions :headers="headers" :items="Personer" class="elevation-1 lillen">
+    <v-data-table  hide-actions :headers="headers" :items="Personer" class="elevation-1 lillen">
         <template v-slot:items="props">
             <td>{{ props.item.namn }}</td>
             <td v-for="(dag, index) in props.item.dagar" :key="index" :class="{ledig: dag != null}">{{dag}}</td>
@@ -52,6 +52,7 @@
                 let array = []
                 dagar.text = "Namn";
                 dagar.value = "name";
+                dagar.sortable = false;
                 array.push(dagar);
                 this.headers = array;
 
@@ -59,6 +60,7 @@
                     let dagar = new Object();
                     dagar.text = [i]
                     dagar.value = [i]
+                    dagar.sortable = false
                     array.push(dagar)
                 }
             }
@@ -69,12 +71,17 @@
         }
     }
 </script>
-<style>
+<style lang="scss">
     .ledig{
         background-color: lightgray;
     }
+    .lillen {
+        margin-top: 2em;
+    }
     .lillen td,.lillen th{
         text-align: center !important;
-        padding: 0px !important;
+        padding: 0 4px !important;
+        width:2em;
+        border-right: 1px solid gray;
     }
 </style>

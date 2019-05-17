@@ -3,7 +3,8 @@
     <div class="h-100">
 
         <AnsokanCard></AnsokanCard>
-        <LedigheterCards :userObj="userObj"></LedigheterCards>
+        <LedigheterCards v-if="userObj.ledighet.length > 0"  :userObj="userObj"></LedigheterCards>
+        <NoLedigheterCard v-else></NoLedigheterCard>
 
     </div>
 
@@ -12,12 +13,13 @@
 <script>
 
     import axios from 'axios';
-    import LedigheterCards from "./LedigheterCards";
+    import LedigheterCards from "./LedigheterCard";
     import AnsokanCard from "./AnsokanCard";
+    import NoLedigheterCard from "./NoLedigheterCard";
 
     export default {
         name: "Home",
-        components: {AnsokanCard, LedigheterCards},
+        components: {NoLedigheterCard, AnsokanCard, LedigheterCards},
         //props: ['user'],
         data() {
             return {
