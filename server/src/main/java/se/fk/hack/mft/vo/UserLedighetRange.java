@@ -15,9 +15,19 @@ public class UserLedighetRange {
         if (ledigheter.isEmpty()) {
             dagar.add(null);
         } else {
+            boolean ledighetFound = false;
             for (Ledighet l : ledigheter) {
                 String s = l.matches(date);
-                dagar.add(s);
+
+                if (s != null) {
+                    dagar.add(s);
+                    ledighetFound = true;
+                    break;
+                }
+            }
+
+            if (!ledighetFound) {
+                dagar.add(null);
             }
         }
     }
