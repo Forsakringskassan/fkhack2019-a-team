@@ -82,6 +82,6 @@
         text-align: center !important;
         padding: 0 4px !important;
         width:2em;
-        border-right: 1px solid gray;
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
     }
 </style>

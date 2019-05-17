@@ -3,7 +3,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h1>Fritid</h1>
+                <h2>Skapa ledighetsf&ouml;rfr&aring;gan</h2>
                 <div class="card-deck">
 
                     <div class="card">
@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">Typ {{selected}}</div>
+                        <div class="card-header">Typ</div>
                         <div class="card-body">
                             <div class="form-group">
                                 <select class="form-control" v-model="selected">
