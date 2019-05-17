@@ -1,8 +1,8 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-data-table hide-actions :headers="headers" :items="Personer" class="elevation-1">
+    <v-data-table hide-actions :headers="headers" :items="Personer" class="elevation-1 lillen">
         <template v-slot:items="props">
             <td>{{ props.item.namn }}</td>
-            <td v-for="(dag, index) in props.item.dagar" :key="index">{{dag}}</td>
+            <td v-for="(dag, index) in props.item.dagar" :key="index" :class="{ledig: dag != null}">{{dag}}</td>
         </template>
     </v-data-table>
 </template>
@@ -69,3 +69,12 @@
         }
     }
 </script>
+<style>
+    .ledig{
+        background-color: lightgray;
+    }
+    .lillen td,.lillen th{
+        text-align: center !important;
+        padding: 0px !important;
+    }
+</style>
