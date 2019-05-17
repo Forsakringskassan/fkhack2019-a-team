@@ -7,17 +7,15 @@
                 Login
             </div>
             <div class="card-body">
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-md mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Kortid</span>
+                        <span class="input-group-text" id="inputGroup-sizing-md">Kortid</span>
                     </div>
                     <input type="text" class="form-control" v-model="kortid" aria-label="Small"
                            aria-describedby="inputGroup-sizing-sm">
                 </div>
-
             </div>
-            <div class="card-footer">
-                {{kortid}}
+            <div class="card-footer dash-card-footer">
                 <button class="btn btn-primary" @click="login" type="button">Login</button>
             </div>
         </div>
@@ -56,6 +54,3 @@
     }
 </script>
 
-<style scoped>
-
-</style>

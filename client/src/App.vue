@@ -3,7 +3,6 @@
         <TopNavbar :kortid="getLoggedInUser.kortid"></TopNavbar>
         <div class="page__wrapper page__wrapper--overflow">
             <v-app>
-
                 <router-view></router-view>
             </v-app>
 

@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="card-footer dash-card-footer">
                 <button class="btn btn-primary" @click="ansok" type="button">Skicka</button>
             </div>
         </div>
