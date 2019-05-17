@@ -87,8 +87,8 @@ public class Neo4j {
                         "MATCH (l)-[:TOM]->(tday:Day)<-[:CHILD]-(tmonth:Month)<-[:CHILD]-(tyear:Year)\n" +
                         "WHERE p.%2$s = { %2$s }\n" +
                         "RETURN\n" +
-                        "    toString(fyear.value)+'-'+toString(fmonth.value)+'-'+toString(fday.value) AS from,\n" +
-                        "    toString(tyear.value)+'-'+toString(tmonth.value)+'-'+toString(tday.value) AS tom,\n" +
+                        "    l.from AS from,\n" +
+                        "    l.tom AS tom,\n" +
                         "    l.id AS id,\n" +
                         "    l.godkänd AS godkänd,\n" +
                         "    lt.typ AS ledighetstyp", Labels.Person.name(), ID),

@@ -100,9 +100,10 @@
             formatDate: function (date) {
 
 
-                let month = date.getMonth() <= 9 ? "0"+(date.getMonth()+1) : (date.getMonth() +1);
+                let monthNN = date.getMonth() <= 9 ? "0"+(date.getMonth()+1) : (date.getMonth() +1);
+                let dateNN = date.getDate() <= 9 ? "0"+date.getDate() : date.getDate();
 
-                return date.getFullYear() + '-'+ month + '-' + date.getDate();
+                return date.getFullYear() + '-'+ monthNN + '-' + dateNN;
 
             }
         }
