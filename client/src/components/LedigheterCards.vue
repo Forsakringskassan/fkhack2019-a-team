@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
 
-                <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.fromdat">
+                <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.from">
 
 
                     <td scope="row"> {{item.from}}</td>
