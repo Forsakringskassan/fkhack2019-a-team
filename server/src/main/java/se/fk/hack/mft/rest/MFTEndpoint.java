@@ -20,7 +20,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("user")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response getUser(UserIdRequest request) {
 		return Response.ok().entity(Neo4j.getUser(request)).build();
 	}
@@ -28,7 +28,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("medarbetare")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response getMedarbetare(UserIdRequest request) {
 		return Response.ok().entity(Neo4j.getMedarbetare(request)).build();
 	}
@@ -36,7 +36,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("collegues")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response getCollegues(UserIdRequest request) {
 		return Response.ok().entity(Neo4j.getCollegues(request)).build();
 	}
@@ -60,7 +60,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("user/ledighet/create")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response userCreateLedighet(UserLedighetRequest request) {
 		return Response.ok().entity(Neo4j.userCreateLedighet(request)).build();
 	}

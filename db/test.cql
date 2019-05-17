@@ -1,6 +1,6 @@
 // Skapa basic data
 CREATE (P1:Person {kortid:'88880001',namn:'Tobias Leo', antaldagar:'28', sparadedagar:'0'})
-CREATE (P2:Person {kortid:'88880002', namn:'Pontus Elsltröm', antaldagar:'28', sparadedagar:'10'})
+CREATE (P2:Person {kortid:'88880002', namn:'Pontus Ellström', antaldagar:'28', sparadedagar:'10'})
 CREATE (P4:Person {kortid:'88880003', namn:'Mikael Ivarsson', antaldagar:'28', sparadedagar:'10'})
 CREATE (P5:Person {kortid:'88880004',namn:'Daniel Edvinsson', antaldagar:'28', sparadedagar:'0'})
 CREATE (CHEF:Person {kortid:'88880005', namn:'Mr T', antaldagar:'28', sparadedagar:'5'})

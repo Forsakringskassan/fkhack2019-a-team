@@ -104,12 +104,17 @@
     .lillen {
         margin-top: 1em;
     }
+    .lillen tbody tr td {
+        font-size: 8pt;
+    }
 
     .lillen td, .lillen th {
         text-align: center !important;
         padding: 0 4px !important;
         width: 2em;
         border-right: 1px solid rgba(0, 0, 0, 0.12);
+        font-size: 8pt;
+
     }
     h2.month-head {
 
