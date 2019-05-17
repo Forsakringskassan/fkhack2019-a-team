@@ -133,6 +133,19 @@ public class Neo4j {
         return result.hasNext();
     }
 
+    public static boolean setStatusLedighet(LedighetStatusRequest request) {
+        Session session = driver.session();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", request.getId());
+        params.put("status", request.getStatus());
+
+        StatementResult result = session.run(String.format(
+                "MATCH (ledighet:Ledighet) WHERE ledighet.id = { id } SET ledighet.godkänd = { status } RETURN ledighet"), params);
+
+        return result.hasNext();
+    }
+
     public static List<String> ledighetstyper() {
         Session session = driver.session();
 
