@@ -112,8 +112,8 @@
         border-right: 1px solid rgba(0, 0, 0, 0.12);
     }
     h2.month-head {
-        margin-left: 10px;
+
+        text-align: center;
         margin-top: 10px;
-        margin-bottom: 1px;
     }
 </style>
