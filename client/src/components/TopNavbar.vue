@@ -34,7 +34,14 @@
         },
         methods: {
             logout: function () {
-                this.$store.dispatch('logoutAction');
+                let self = this;
+                this.$store.dispatch('logoutAction').then(function() {
+                //self.$router.push({name: 'login'});
+                    window.location.href = '/login';
+                }).catch(function(error) {
+                    console.log(error);
+                    window.location.href = '/login';
+                });
             }
         }
     }
