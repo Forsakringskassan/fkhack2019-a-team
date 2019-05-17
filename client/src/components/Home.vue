@@ -43,7 +43,7 @@
             });
 
             axios.post('http://localhost:8080/mft/user/ledighet', {kortid: this.user.kortid}).then(function (response) {
-               // console.log(JSON.stringify(response, null, 1));
+                console.log(JSON.stringify(response, null, 1));
                 self.userObj.ledighet = response.data;
             });
 

@@ -100,6 +100,7 @@ public class Neo4j {
             ledigheter.add(new Ledighet(record.get("id").asString(), record.get("from").asString(), record.get("tom").asString(), record.get("ledighetstyp").asString(), record.get("godkänd").asBoolean()));
         });
 
+        System.out.println(ledigheter);
         return ledigheter;
     }
 

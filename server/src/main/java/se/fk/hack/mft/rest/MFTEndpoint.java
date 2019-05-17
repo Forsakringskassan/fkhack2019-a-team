@@ -55,7 +55,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("user/ledighet")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response userLedighet(UserIdRequest request) {
 		return Response.ok().entity(Neo4j.userGetLedighet(request)).build();
 	}
@@ -79,7 +79,7 @@ public class MFTEndpoint {
 	@POST
 	@Path("enhetsvy")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response enhetsvy(MonthRequest request) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
