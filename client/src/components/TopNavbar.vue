@@ -13,10 +13,10 @@
                 </button>
             </div>
 
-            <div class="top-nav__links">
+            <div class="top-nav__links mft-white-text">
 
                 <div class="top-nav__user">
-                  <div class="tttt">  {{kortid || 'Guest'}}</div>
+                    <button disabled class="top-nav__link">  {{kortid || 'Guest'}}</button>
                 </div>
                 <div class="top-nav__user">
                     <button class="top-nav__link" @click="logout">Logga Ut</button>
@@ -41,5 +41,7 @@
 </script>
 
 <style scoped>
-
+    .mft-white-text button {
+        color: white;
+    }
 </style>
