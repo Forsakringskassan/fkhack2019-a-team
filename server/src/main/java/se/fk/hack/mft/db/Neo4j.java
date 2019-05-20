@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class Neo4j {
     private static final Driver driver = GraphDatabase.driver("bolt://localhost:7687");
     private static final String ID = "kortid";
+    private static final int ONE_DAY = 1;
 
     public static User getUser(UserIdRequest request) {
         Session session = driver.session();
@@ -90,7 +91,8 @@ public class Neo4j {
                         "    l.from AS from,\n" +
                         "    l.tom AS tom,\n" +
                         "    l.id AS id,\n" +
-                        "    l.godkänd AS godkänd,\n" +
+                        "    l.godkand AS godkand,\n" +
+                        "    lt.id AS ledighetstypid,\n" +
                         "    lt.typ AS ledighetstyp", Labels.Person.name(), ID),
                 params);
 
@@ -100,8 +102,8 @@ public class Neo4j {
                 record.get("id").asString(),
                 record.get("from").asString(),
                 record.get("tom").asString(),
-                record.get("ledighetstyp").asString(),
-                record.get("godkänd").asBoolean())));
+                new Ledighetstyp(record.get("ledighetstypid").asString(), record.get("ledighetstyp").asString()),
+                record.get("godkand").asBoolean())));
 
         return ledigheter;
     }
@@ -116,16 +118,16 @@ public class Neo4j {
         params.put("ledighetstyp", request.getLedighetstyp());
 
         StatementResult result = session.run(String.format(
-                "MATCH (user:%1$s) WHERE user.%2$s = { %2$s } \n" +
-                        "MATCH (ledighetstyp:Ledighetstyp {typ: { ledighetstyp }}) \n" +
-                        "CREATE (ledighet:Ledighet {id: apoc.create.uuid(), godkänd: false, from: { from }, tom: { tom }}) \n" +
-                        "MERGE (user)-[:REQUESTS]->(ledighet) \n" +
-                        "MERGE (ledighet)-[:TYPE]->(ledighetstyp) \n" +
-                        "WITH user, ledighet \n" +
-                        "CALL ga.timetree.events.attach({node: ledighet, time: apoc.date.parse({ from },'ms','yyyy-MM-dd'), relationshipType: 'FROM'}) \n" +
-                        "YIELD node AS n1 \n" +
-                        "CALL ga.timetree.events.attach({node: ledighet, time: apoc.date.parse({ tom },'ms','yyyy-MM-dd'), relationshipType: 'TOM'}) \n" +
-                        "YIELD node AS n2 \n" +
+                "MATCH (user:%1$s) WHERE user.%2$s = { %2$s }\n" +
+                        "MATCH (ledighetstyp:Ledighetstyp {typ: { ledighetstyp }})\n" +
+                        "CREATE (ledighet:Ledighet {id: apoc.create.uuid(), godkand: false, from: { from }, tom: { tom }})\n" +
+                        "MERGE (user)-[:REQUESTS]->(ledighet)\n" +
+                        "MERGE (ledighet)-[:TYPE]->(ledighetstyp)\n" +
+                        "WITH user, ledighet\n" +
+                        "CALL ga.timetree.events.attach({node: ledighet, time: apoc.date.parse({ from },'ms','yyyy-MM-dd'), relationshipType: 'FROM'})\n" +
+                        "YIELD node AS n1\n" +
+                        "CALL ga.timetree.events.attach({node: ledighet, time: apoc.date.parse({ tom },'ms','yyyy-MM-dd'), relationshipType: 'TOM'})\n" +
+                        "YIELD node AS n2\n" +
                         "RETURN user",
                 Labels.Person.name(), ID),
                 params);
@@ -140,19 +142,20 @@ public class Neo4j {
         params.put("id", request.getId());
         params.put("status", request.getStatus());
 
-        StatementResult result = session.run(String.format(
-                "MATCH (ledighet:Ledighet) WHERE ledighet.id = { id } SET ledighet.godkänd = { status } RETURN ledighet"), params);
+        StatementResult result = session.run(
+                "MATCH (ledighet:Ledighet) WHERE ledighet.id = { id } SET ledighet.godkand = { status } RETURN ledighet",
+                params);
 
         return result.hasNext();
     }
 
-    public static List<String> ledighetstyper() {
+    public static List<Ledighetstyp> ledighetstyper() {
         Session session = driver.session();
 
-        StatementResult result = session.run(String.format(
-                "MATCH (ledighetstyp:%1$s) RETURN ledighetstyp.typ", Labels.Ledighetstyp.name()));
+        StatementResult result = session.run(
+                "MATCH (ledighetstyp:Ledighetstyp) RETURN ledighetstyp.id AS id, ledighetstyp.typ AS namn");
 
-        return result.list().stream().map(record -> record.get(0).asString()).collect(Collectors.toList());
+        return result.list().stream().map(record -> new Ledighetstyp(record.get("id").asString(), record.get("namn").asString())).collect(Collectors.toList());
     }
 
     /**
@@ -185,7 +188,7 @@ public class Neo4j {
                         "WHERE p.kortid = kortid \n" +
                         "AND NOT ({ from } < l.from AND { tom } < l.from)\n" +
                         "AND NOT ({ from } > l.tom AND { tom } > l.tom)\n" +
-                        "RETURN p.kortid AS kortid, p.namn AS namn, l AS ledighet, lt.typ AS ledighetstyp"),
+                        "RETURN p.kortid AS kortid, p.namn AS namn, l AS ledighet, lt.id AS ledighetstypid, lt.typ AS ledighetstypnamn"),
                 params);
 
 
@@ -201,12 +204,20 @@ public class Neo4j {
             String kortid = record.get("kortid").asString();
             String namn = record.get("namn").asString();
             Node ledighet = record.get("ledighet").asNode();
-            String ledighetstyp = record.get("ledighetstyp").asString();
+            Ledighetstyp ledighetstyp = new Ledighetstyp(
+                    record.get("ledighetstypid").asString(),
+                    record.get("ledighetstypnamn").asString());
 
-            UserLedighetRange apa = ledighetMap.get(kortid);
-            apa.setKortid(kortid);
-            apa.setNamn(namn);
-            apa.addLedighet(new Ledighet(ledighet.get("id").asString(), ledighet.get("from").asString(), ledighet.get("tom").asString(), ledighetstyp, ledighet.get("godkänd").asBoolean()));
+            UserLedighetRange ledighetRange = ledighetMap.get(kortid);
+            ledighetRange.setKortid(kortid);
+            ledighetRange.setNamn(namn);
+            ledighetRange.addLedighet(
+                    new Ledighet(
+                            ledighet.get("id").asString(),
+                            ledighet.get("from").asString(),
+                            ledighet.get("tom").asString(),
+                            ledighetstyp,
+                            ledighet.get("godkand").asBoolean()));
         });
 
         for (UserLedighetRange l : ledighetMap.values()) {
@@ -228,8 +239,8 @@ public class Neo4j {
             // Iterate all dates in range for user to determine daily ledighetstyp.
             while (!iterator.after(end)) {
                 String dateString = format.format(iterator.getTime());
-                l.handleDate(format.format(iterator.getTime()));
-                iterator.add(Calendar.DATE, 1);
+                l.handleDate(dateString);
+                iterator.add(Calendar.DATE, ONE_DAY);
             }
         }
 

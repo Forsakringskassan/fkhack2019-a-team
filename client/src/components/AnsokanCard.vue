@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <select class="form-control" v-model="selected">
-                                    <option v-for="typ in ledighetstyper" :key="typ">{{typ}}</option>
+                                    <option v-for="typ in ledighetstyper" :key="typ.id">{{typ.namn}}</option>
                                 </select>
                             </div>
                         </div>
