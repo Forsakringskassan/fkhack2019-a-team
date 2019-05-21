@@ -9,7 +9,7 @@ public class UserLedighetRange {
     private String from;
     private String tom;
     private List<Ledighet> ledigheter = new ArrayList<>();
-    private List<String> dagar = new ArrayList<>();
+    private List<Ledighetstyp> dagar = new ArrayList<>();
 
     public void handleDate(String date) {
         if (ledigheter.isEmpty()) {
@@ -17,10 +17,10 @@ public class UserLedighetRange {
         } else {
             boolean ledighetFound = false;
             for (Ledighet l : ledigheter) {
-                String s = l.matches(date);
+                Ledighetstyp ledighetstyp = l.matches(date);
 
-                if (s != null) {
-                    dagar.add(s);
+                if (ledighetstyp != null) {
+                    dagar.add(ledighetstyp);
                     ledighetFound = true;
                     break;
                 }
@@ -76,11 +76,11 @@ public class UserLedighetRange {
         this.ledigheter.add(ledighet);
     }
 
-    public List<String> getDagar() {
+    public List<Ledighetstyp> getDagar() {
         return dagar;
     }
 
-    public void setDagar(List<String> dagar) {
+    public void setDagar(List<Ledighetstyp> dagar) {
         this.dagar = dagar;
     }
 }

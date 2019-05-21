@@ -21,9 +21,9 @@
                     <tr class="dayoff-item" v-for="item in items.ledighet" :key="item.id">
 
 
-                        <td scope="row">{{item.typ}}</td>
+                        <td scope="row">{{item.typ.namn}} ({{item.typ.id}})</td>
                         <td>{{item.from}}</td>
-                        <td> {{item.tom}}</td>
+                        <td>{{item.tom}}</td>
                         <td>
                             <div v-if="item.godkand === true">
                                 Ja

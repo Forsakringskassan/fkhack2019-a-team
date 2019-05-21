@@ -4,18 +4,12 @@ public class Ledighet {
     private String id;
     private String from;
     private String tom;
-    private String typ;
+    private Ledighetstyp typ;
     private boolean godkand;
 
-    public Ledighet() {
-        id = "";
-        from = "";
-        tom = "";
-        typ = "";
-        godkand = false;
-    }
+    public Ledighet() {}
 
-    public Ledighet(String id, String from, String tom, String typ, boolean godkand) {
+    public Ledighet(String id, String from, String tom, Ledighetstyp typ, boolean godkand) {
         this.id = id;
         this.from = from;
         this.tom = tom;
@@ -23,7 +17,7 @@ public class Ledighet {
         this.godkand = godkand;
     }
 
-    public String matches(String date) {
+    public Ledighetstyp matches(String date) {
         if (from.compareTo(date) <= 0 && tom.compareTo(date) >= 0) {
             return typ;
         } else {
@@ -63,11 +57,11 @@ public class Ledighet {
         this.godkand = godkand;
     }
 
-    public String getTyp() {
+    public Ledighetstyp getTyp() {
         return typ;
     }
 
-    public void setTyp(String typ) {
+    public void setTyp(Ledighetstyp typ) {
         this.typ = typ;
     }
 }

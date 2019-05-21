@@ -6,7 +6,7 @@
         <v-data-table hide-actions :headers="headers" :items="Personer" class="elevation-1 lillen">
             <template v-slot:items="props">
                 <td>{{ props.item.namn }}</td>
-                <td v-for="(dag, index) in props.item.dagar" :key="index" :class="{ledig: dag != null}">{{dag}}</td>
+                <td v-for="(dag, index) in props.item.dagar" :key="index" :class="{ledig: dag != null}">{{box(dag)}}</td>
             </template>
         </v-data-table>
     </div>
@@ -40,6 +40,9 @@
             }
         },
         methods: {
+            box(ledighetstyp) {
+                return ledighetstyp !== null ? ledighetstyp.id : null;
+            },
             getPersoner() {
                 let self = this;
                 let date = new Date()
@@ -50,17 +53,7 @@
                     kortid: this.$store.getters.getUser.kortid,
                     date: firstDay
                 }).then(function (response) {
-                    let tmp = response.data
-                    for (var i = 0; i < tmp.length; i++) {
-                        for (var j = 0; j < tmp[i].dagar.length; j++) {
-
-                            if (tmp[i].dagar[j] != null) {
-                                tmp[i].dagar[j] = tmp[i].dagar[j].substring(0, 3)
-                            }
-                        }
-                    }
-                    console.log(tmp)
-                    self.Personer = tmp
+                    self.Personer = response.data
                 });
             },
 
