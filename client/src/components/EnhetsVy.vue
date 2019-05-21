@@ -1,6 +1,9 @@
 <template>
     <div>
-        <SamlingsTabell></SamlingsTabell>
+        <div class="enhetstabell">
+
+        <SamlingsTabell @changeMonth="changeMonth"></SamlingsTabell>
+        </div>
     </div>
 </template>
 
@@ -11,6 +14,12 @@
         name: 'EnhetsVy',
         components: {
             SamlingsTabell
+        },
+        methods: {
+            changeMonth: function(dir)
+            {
+                console.log(dir);
+            }
         }
     }
 
