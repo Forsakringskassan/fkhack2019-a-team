@@ -48,14 +48,24 @@
       height: 3.5em;
     }
 
+
+    .weekend {
+      background-color: darkgray !important;
+
+    }
+
+    .day-header-row {
+      text-align: center;
+    }
+
   }
 }
 
 .month-head {
 
   display: grid;
-  grid-template-columns: 4fr 1fr 4fr;
-  font-size: 25pt;
+  grid-template-columns: 3fr 1fr 3fr;
+  font-size: 22pt;
   height: 2em;
   padding: 0.5em 0;
   align-items: center;
@@ -97,7 +107,6 @@
     }
 
   }
-
 
 }
 

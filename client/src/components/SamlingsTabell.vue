@@ -18,16 +18,19 @@
             <tr>
 
                 <th scope="col">Namn</th>
-                <th v-for="dag in daysInMonth" :key="dag">{{dag}}</th>
+
+                <th v-for="(dag, index) in daysInMonth" class="day-header-row" :key="dag"
+                    :class="{weekend: !isWeekend(dag)}">{{dag}}
+                </th>
             </tr>
             </thead>
             <tbody>
 
-            <tr class="dayoff-item" v-for="person in Personer" :key="person.namn">
+            <tr class="dayoff-item" v-for="(person, index) in Personer" :key="index">
                 <td class="mft-table__enhet__namn">{{person.namn}}</td>
-                <td v-if="index < daysInMonth" class="mft-table__enhet__dag" :style="cellWidth(dag)"
-                    v-for="(dag, index) in person.dagar" :key="index">
-                    {{dag !== null ? dag.id : ""}}
+                <td v-if="index < daysInMonth" class="mft-table__enhet__dag" :class="{weekend: !isWeekend(index+1)}"
+                    v-for="(dag, index) in person.dagar" :key="index" :style="cellStyle(dag, index+1)">
+                    {{validDay(dag, index+1) ? dag.id : ""}}
                 </td>
             </tr>
             </tbody>
@@ -60,7 +63,6 @@
                     'Oktober',
                     'November',
                     'December'
-
                 ]
             }
         },
@@ -71,7 +73,7 @@
             getPersoner() {
                 let self = this;
                 let date = new Date()
-                let month = this.currMonth <= 9 ? "0" + (this.currMonth + 1) : (this.currMonth +1);
+                let month = this.currMonth <= 9 ? "0" + (this.currMonth + 1) : (this.currMonth + 1);
                 let firstDay = date.getFullYear() + '-' + month + '-01';
 
                 axios.post("http://localhost:8080/mft/enhetsvy", {
@@ -102,13 +104,23 @@
                     array.push(dagar)
                 }
             },
-            cellWidth: function (dag) {
+            cellStyle: function (dag, index) {
+
+                let weekDay = this.isWeekend(index);
                 if (dag === null) {
-                    return {};
-                }
-                return {
-                    "width": (88 / this.daysInMonth) + "%",
-                    "background-color": this.getColor(dag.id)
+                    if (!weekDay) {
+
+                        return {
+                            "background-color": "lightgrey"
+                        };
+                    } else {
+                        return {};
+                    }
+                } else {
+                    return {
+                        "width": (88 / this.daysInMonth) + "%",
+                        "background-color": this.getColor(dag.id),
+                    }
                 }
             },
             getColor: function (id) {
@@ -138,6 +150,14 @@
                 console.log("update");
                 this.getPersoner();
                 this.daysInCurrentMonth(this.currMonth);
+            },
+            isWeekend: function (dag) {
+                let date = new Date("2019-" + (this.currMonth + 1) + "-" + (dag));
+                return !(date.getDay() === 0 || date.getDay() === 6); //Checks if day is saturday or sunday
+
+            },
+            validDay: function (dag, datum) {
+                return this.isWeekend(datum) && dag !== null;
             }
         },
         computed: {
