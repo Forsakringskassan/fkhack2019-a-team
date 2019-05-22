@@ -1,14 +1,41 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
     <div class="h-100">
 
 
-        <h2 class="month-head">{{month}}</h2>
-        <v-data-table hide-actions :headers="headers" :items="Personer" class="elevation-1 lillen">
-            <template v-slot:items="props">
-                <td>{{ props.item.namn }}</td>
-                <td v-for="(dag, index) in props.item.dagar" :key="index" :class="{ledig: dag != null}">{{box(dag)}}</td>
-            </template>
-        </v-data-table>
+        <div class="month-head">
+            <div>
+                <button class="month-head__month__previous" @click="changeMonth(-1)"></button>
+            </div>
+            <div class="month-head__month"> {{month}}</div>
+            <div>
+                <button class="month-head__month__next" @click="changeMonth(1)"></button>
+            </div>
+        </div>
+
+
+        <table class="mft-table mft-table__enhet">
+            <thead>
+            <tr>
+
+                <th scope="col">Namn</th>
+
+                <th v-for="(dag, index) in daysInMonth" class="day-header-row" :key="dag"
+                    :class="{weekend: !isWeekend(dag)}">{{dag}}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr class="dayoff-item" v-for="(person, index) in Personer" :key="index">
+                <td class="mft-table__enhet__namn">{{person.namn}}</td>
+                <td v-if="index < daysInMonth" class="mft-table__enhet__dag" :class="{weekend: !isWeekend(index+1)}"
+                    v-for="(dag, index) in person.dagar" :key="index" :style="cellStyle(dag, index+1)">
+                    {{validDay(dag, index+1) ? dag.id : ""}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
 </template>
 
@@ -20,6 +47,7 @@
         data() {
             return {
                 currMonth: '',
+                numberOfDays: '',
                 headers: [],
                 Personer: [],
                 months: [
@@ -35,7 +63,6 @@
                     'Oktober',
                     'November',
                     'December'
-
                 ]
             }
         },
@@ -46,7 +73,7 @@
             getPersoner() {
                 let self = this;
                 let date = new Date()
-                let month = date.getMonth() <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+                let month = this.currMonth <= 9 ? "0" + (this.currMonth + 1) : (this.currMonth + 1);
                 let firstDay = date.getFullYear() + '-' + month + '-01';
 
                 axios.post("http://localhost:8080/mft/enhetsvy", {
@@ -67,6 +94,7 @@
                 dagar.sortable = false;
                 array.push(dagar);
                 this.headers = array;
+                this.numberOfDays = antal;
 
                 for (var i = 1; i <= antal; i++) {
                     let dagar = new Object();
@@ -75,17 +103,75 @@
                     dagar.sortable = false
                     array.push(dagar)
                 }
+            },
+            cellStyle: function (dag, index) {
+
+                let weekDay = this.isWeekend(index);
+                if (dag === null) {
+                    if (!weekDay) {
+
+                        return {
+                            "background-color": "lightgrey"
+                        };
+                    } else {
+                        return {};
+                    }
+                } else {
+                    return {
+                        "width": (88 / this.daysInMonth) + "%",
+                        "background-color": this.getColor(dag.id),
+                    }
+                }
+            },
+            getColor: function (id) {
+                switch (id) {
+                    case "TJ":
+                        return "red";
+                    case "S":
+                        return "green";
+                    case "FL":
+                        return "orange";
+                    case "FÖ":
+                        return "yellow";
+                }
+            },
+            changeMonth: function (dir) {
+
+                if ((this.currMonth + dir > 11) || (this.currMonth + dir < 0)) {
+                    return;
+                }
+                this.currMonth += dir;
+
+                this.updateTable();
+
+                this.$emit('changeMonth', dir);
+            },
+            updateTable: function () {
+                console.log("update");
+                this.getPersoner();
+                this.daysInCurrentMonth(this.currMonth);
+            },
+            isWeekend: function (dag) {
+                let date = new Date("2019-" + (this.currMonth + 1) + "-" + (dag));
+                return !(date.getDay() === 0 || date.getDay() === 6); //Checks if day is saturday or sunday
+
+            },
+            validDay: function (dag, datum) {
+                return this.isWeekend(datum) && dag !== null;
             }
         },
         computed: {
-          month: function() {
-              return this.months[this.currMonth];
-          }
+            month: function () {
+                return this.months[this.currMonth];
+            },
+            daysInMonth: function () {
+                return this.numberOfDays;
+            },
+
         },
         created() {
-            this.getPersoner()
             this.currMonth = new Date().getMonth();
-            this.daysInCurrentMonth(this.currMonth);
+            this.updateTable();
         }
     }
 </script>
@@ -97,6 +183,7 @@
     .lillen {
         margin-top: 1em;
     }
+
     .lillen tbody tr td {
         font-size: 8pt;
     }
@@ -109,6 +196,7 @@
         font-size: 8pt;
 
     }
+
     h2.month-head {
 
         text-align: center;

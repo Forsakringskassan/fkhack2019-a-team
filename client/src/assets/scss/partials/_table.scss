@@ -1,53 +1,113 @@
-.table-style {
-  width:100%;
+.mft-table {
+  width: 100%;
+
+  thead {
+
+    /*background: #f1f1f1;*/
+    width: 100%;
+
+    th {
+      padding: 0.5rem;
+      font-size: 13pt;
+    }
+
+  }
+
+  &__ledigheter tbody {
+    tr:nth-child(odd) {
+      background: #f1f1f1;
+    }
+
+    td {
+      font-size: 11pt;
+      height: 5px;
+      padding: 0.35rem;
+
+    }
+  }
+
+  &__enhet {
+
+    padding: 0 1em 0;
+    font-size: 8pt;
+
+    th, td {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      background-color: rgba(0, 0, 0, 0.05);
+
+    }
+
+    &__namn {
+      text-align: left;
+      padding-left: 1em;
+
+    }
+
+    &__dag {
+      text-align: center;
+      height: 3.5em;
+    }
+
+
+    .weekend {
+      background-color: darkgray !important;
+
+    }
+
+    .day-header-row {
+      text-align: center;
+    }
+
+  }
 }
 
-.table-style thead {
+.month-head {
 
-  /*background: #f1f1f1;*/
-  width:100%;
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
+  font-size: 22pt;
+  height: 2em;
+  padding: 0.5em 0;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5em;
+
+  button {
+    background: none;
+    border: none;
+  }
+
+  &__month {
+    display: block;
+    width: 100%;
+
+    height: 2em;
+
+
+    &__previous {
+
+      width: 1.5em;
+      float: right;
+
+      &:after {
+
+        content: url('assets/img/left-arrow.svg');
+      }
+    }
+
+    &__next {
+      width: 1.5em;
+      float: left;
+
+      &:after {
+        content: url('assets/img/right-arrow.svg');
+      }
+
+    }
+
+  }
 
 }
 
-.table-style thead th {
 
-  /*border: 1px solid #95999c;
-  border-bottom: 2px solid #95999c;
-  */
-
-  padding: 0.5rem;
-  font-size: 13pt;
-}
-
-.table-style tbody tr:nth-child(odd) {
-  background: #f1f1f1;
-
-}
-
-.table-style td.number {
-  float: right;
-}
-
-.table-style tbody td {
-  font-size: 11pt;
-  height: 5px;
-  padding: 0.35rem;
-}
-
-.table-style td a {
-  color: #0f6674;
-}
-
-.table-style-transparent td {
-  padding: 0.5rem;
-  font-size: 12pt;
-}
-
-.table-style-transparent th {
-  padding: 0.5rem;
-  font-size: 15pt;
-}
-
-  th.column {
-  padding: 0;
-}

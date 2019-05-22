@@ -6,7 +6,7 @@
                 Mina ledigheter &nbsp;&nbsp;&nbsp;&nbsp; <span class="username">{{userObj.info.namn}}</span>
             </div>
             <div class="card-body">
-                <table class="table-style">
+                <table class="mft-table mft-table__ledigheter">
                     <thead>
                     <tr>
 
